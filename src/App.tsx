@@ -33,7 +33,7 @@ function App() {
   ) : (
     <>
       <Routes>
-        <Route path="/auth/signin" element={<> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
+        <Route path="/" element={<> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         {/* <Route index element={<> <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <ECommerce /> </>} /> */}
         {/* <Route path="/calendar" element={<> <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Calendar /> </>} /> */}
         {/* <Route path="/profile" element={<> <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Profile /> </>} /> */}
