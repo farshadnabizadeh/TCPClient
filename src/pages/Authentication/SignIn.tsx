@@ -171,16 +171,17 @@ const SignIn: React.FC = () => {
 
             <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
               <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-                <span className="mb-1.5 block font-medium">Start for free</span>
+                <span className="mb-1.5 block font-medium">Welcome to</span>
                 <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                  Sign In to TailAdmin
+                  Perppc Group
                 </h2>
 
                 <div>
                   <div className="mb-4">
-                    <label className="mb-2.5 block font-medium text-black dark:text-white">
+                    <label className="mb-2.5 flex items-center font-medium text-black dark:text-white">
                       <span>Email</span>
-                      <span className='mx-2 text-red-800'><u>Email is incorrect</u></span>
+                      {!emailValid && email && <span className='mx-2 text-red-800'><u>Email is incorrect</u></span>}
+                      {emailValid && email && <span className='mx-2 text-green-700'><img className='w-[20px]' src={Success} /></span>}
                     </label>
                     <div className="relative">
                       <input
