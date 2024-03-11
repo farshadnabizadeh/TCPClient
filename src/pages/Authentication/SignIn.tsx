@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 const SignIn: React.FC = () => {
+
   return (
     <React.Fragment>
       <main className='w-full min-h-screen relative'>
-        <div className="rounded-sm bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <section className="rounded-sm bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="flex flex-wrap items-center w-full h-screen">
             <div className="hidden w-full xl:block xl:w-1/2">
               <div className="py-17.5 px-26 text-center">
@@ -152,7 +153,7 @@ const SignIn: React.FC = () => {
                   Sign In to TailAdmin
                 </h2>
 
-                <form>
+                <div>
                   <div className="mb-4">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
                       Email
@@ -263,11 +264,11 @@ const SignIn: React.FC = () => {
                     </span>
                     Sign in with Google
                   </button>
-                </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </main>
     </React.Fragment>
 
