@@ -5,13 +5,13 @@ import Logo from '../../images/logo/logo.svg';
 const SignIn: React.FC = () => {
   return (
     <React.Fragment>
-      <div className="dark:bg-boxdark-2 dark:text-bodydark">
+      <div className="dark:bg-boxdark-2 dark:text-bodydark overflow-hidden">
         <div className="flex h-screen overflow-hidden">
-          <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+          <div className="relative flex flex-1 flex-col overflow-hidden">
             <main className='w-full min-h-screen flex items-center'>
-              <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+              <div className="w-full min-h-screen">
                 <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                  <div className="flex flex-wrap items-center">
+                  <div className="flex flex-wrap items-center w-full h-screen">
                     <div className="hidden w-full xl:block xl:w-1/2">
                       <div className="py-17.5 px-26 text-center">
                         <Link className="mb-5.5 inline-block" to="/">
