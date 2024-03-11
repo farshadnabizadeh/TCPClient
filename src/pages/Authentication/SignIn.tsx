@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
+import Success from '../../images/png/success.png';
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -14,7 +15,7 @@ const SignIn: React.FC = () => {
   }
 
   const passwordValidation = (data: string) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegex = /^[A-Za-z](?=.*[^A-Za-z\d])(?=.*\d)[A-Za-z\d\W_]{6,7}$/;
     setPasswordValid(passwordRegex.test(data));
   }
 
@@ -210,9 +211,10 @@ const SignIn: React.FC = () => {
                   </div>
 
                   <div className="mb-6">
-                    <label className="mb-2.5 block font-medium text-black dark:text-white">
+                    <label className="mb-2.5 font-medium text-black dark:text-white flex items-center">
                       <span>Password</span>
-                      <span className='mx-2 text-red-800'><u>Password is incorrect</u></span>
+                      {!passwordValid && password && <span className='mx-2 text-red-800'><u>Password is incorrect</u></span>}
+                      {passwordValid && password && <span className='mx-2 text-green-700'><img className='w-[20px]' src={Success} /></span>}
                     </label>
                     <div className="relative">
                       <input
