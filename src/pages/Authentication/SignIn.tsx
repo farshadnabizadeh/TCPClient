@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 const SignIn: React.FC = () => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
+  console.log('email', email, 'password', password)
   return (
     <React.Fragment>
       <main className='w-full min-h-screen relative'>
@@ -160,6 +163,7 @@ const SignIn: React.FC = () => {
                     </label>
                     <div className="relative">
                       <input
+                        onChange={(e) => setEmail(e.target.value)}
                         type="email"
                         placeholder="Enter your email"
                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -191,6 +195,7 @@ const SignIn: React.FC = () => {
                     </label>
                     <div className="relative">
                       <input
+                        onChange={(e) => setPassword(e.target.value)}
                         type="password"
                         placeholder="Enter Your Password"
                         className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
