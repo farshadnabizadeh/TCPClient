@@ -159,7 +159,8 @@ const SignIn: React.FC = () => {
                 <div>
                   <div className="mb-4">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
-                      Email
+                      <span>Email</span>
+                      <span className='mx-2 text-red-800'><u>Email is incorrect</u></span>
                     </label>
                     <div className="relative">
                       <input
@@ -191,7 +192,8 @@ const SignIn: React.FC = () => {
 
                   <div className="mb-6">
                     <label className="mb-2.5 block font-medium text-black dark:text-white">
-                      Password
+                      <span>Password</span>
+                      <span className='mx-2 text-red-800'><u>Password is incorrect</u></span>
                     </label>
                     <div className="relative">
                       <input
