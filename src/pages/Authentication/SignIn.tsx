@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const emailValidation = (data: any) => {
 
+  }
+  const passwordValidation = (data: any) => {
+
+  }
+  useEffect(() => {
+    emailValidation(email)
+    passwordValidation(password)
+  }, [email, password])
   console.log('email', email, 'password', password)
   return (
     <React.Fragment>
