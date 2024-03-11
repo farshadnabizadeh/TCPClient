@@ -5,17 +5,27 @@ import Logo from '../../images/logo/logo.svg';
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const emailValidation = (data: any) => {
+  const [emailValid, setEmailValid] = useState<boolean>(false);
+  const [passwordValid, setPasswordValid] = useState<boolean>(false);
 
+  const emailValidation = (data: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setEmailValid(emailRegex.test(data));
   }
-  const passwordValidation = (data: any) => {
 
+  const passwordValidation = (data: string) => {
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    setPasswordValid(passwordRegex.test(data));
   }
+
   useEffect(() => {
-    emailValidation(email)
-    passwordValidation(password)
-  }, [email, password])
-  console.log('email', email, 'password', password)
+    emailValidation(email);
+    passwordValidation(password);
+  }, [email, password]);
+  useEffect(() => {
+    console.log('emailValid', emailValid, 'passwordValid', passwordValid)
+  }, [emailValid, passwordValid])
+
   return (
     <React.Fragment>
       <main className='w-full min-h-screen relative'>
