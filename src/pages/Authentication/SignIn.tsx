@@ -19,7 +19,7 @@ const SignIn: React.FC = () => {
 
     try {
       let response = await postData(url, data);
-      console.log('Button Response is =>', response?.data);
+      console.log('Button Response is =>', response?.data?.systemCheck);
     } catch (error) {
       console.error('Error:', error);
     }
