@@ -26,7 +26,12 @@ const SignIn: React.FC = () => {
     }
   }
   WhoSendRequest();
-  console.log('developerCheck', developerCheck);
+  const LoginProcess = () => {
+      if(developerCheck){
+        console.log('developerCheck', developerCheck);
+      }
+  }
+
   const emailValidation = (data: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setEmailValid(emailRegex.test(data));
@@ -269,7 +274,7 @@ const SignIn: React.FC = () => {
 
                   <div className="mb-5">
                     <input
-                      // onClick={LoginProcess}
+                      onClick={LoginProcess}
                       type="submit"
                       value="Sign In"
                       className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
