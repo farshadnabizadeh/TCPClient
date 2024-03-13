@@ -5,12 +5,16 @@ import Logo from '../../images/logo/logo.svg';
 import Success from '../../images/png/success.png';
 import { postData } from '../../requests/requests';
 import { host, pathname, developerPassword, developerUsername } from '../../env';
+import { useDispatch } from 'react-redux';
+import { LinkAction } from '../../Memo';
 const SignIn: React.FC = () => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
-  const [developerCheck, setDeveloperCheck] = useState<boolean>()
+  const [developerCheck, setDeveloperCheck] = useState<any>()
   const WhoSendRequest = async () => {
     const url = host + pathname + 'auth-developer';
     const data = {
@@ -29,7 +33,7 @@ const SignIn: React.FC = () => {
   const LoginProcess = () => {
     const url = host + pathname + '';
     if (developerCheck) {
-
+      dispatch(LinkAction(developerCheck))
     }
   }
 
