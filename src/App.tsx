@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
 import SignIn from './pages/Authentication/SignIn';
+import { useSelector } from 'react-redux';
 // import SignUp from './pages/Authentication/SignUp';
 // import Calendar from './pages/Calendar';
 // import Chart from './pages/Chart';
@@ -19,7 +20,8 @@ import SignIn from './pages/Authentication/SignIn';
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
-
+  const router = useSelector((state: any)=>state.Memo);
+  console.log(router)
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
