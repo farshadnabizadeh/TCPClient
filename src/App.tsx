@@ -45,7 +45,8 @@ function App() {
         {/* <Route path="/ui/alerts" element={<> <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Alerts /> </>} /> */}
         {/* <Route path="/ui/buttons" element={<> <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Buttons /> </>} /> */}
         {/* <Route path="/auth/signup" element={<> <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignUp /> </>} /> */}
-      </Routes></>
+      </Routes>
+    </>
 
   );
 }
