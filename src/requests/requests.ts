@@ -7,9 +7,9 @@ export const postData = async (host: any, body: any) => {
 
     try {
         response = await axios.post(url, data);
-        console.log('Response:', response.data);
+        // console.log('Response:', response.data);
     } catch (error) {
-        console.error('Error:', error);
+        // console.error('Error:', error);
     }
     return response;
 };

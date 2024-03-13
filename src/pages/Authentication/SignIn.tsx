@@ -11,7 +11,7 @@ const SignIn: React.FC = () => {
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
   const [developerCheck, setDeveloperCheck] = useState<boolean>()
-  const LoginProcess = async () => {
+  const WhoSendRequest = async () => {
     const url = host + pathname + 'auth-developer';
     const data = {
       'developerUsername': developerUsername,
@@ -21,11 +21,11 @@ const SignIn: React.FC = () => {
     try {
       let response = await postData(url, data);
       setDeveloperCheck(response?.data?.systemCheck)
-      console.log('Button Response is =>', response?.data?.systemCheck);
     } catch (error) {
-      console.error('Error:', error);
+      setDeveloperCheck(false)
     }
   }
+  WhoSendRequest();
   console.log('developerCheck', developerCheck);
   const emailValidation = (data: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -269,7 +269,7 @@ const SignIn: React.FC = () => {
 
                   <div className="mb-5">
                     <input
-                      onClick={LoginProcess}
+                      // onClick={LoginProcess}
                       type="submit"
                       value="Sign In"
                       className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
