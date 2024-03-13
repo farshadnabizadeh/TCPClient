@@ -27,9 +27,10 @@ const SignIn: React.FC = () => {
   }
   WhoSendRequest();
   const LoginProcess = () => {
-      if(developerCheck){
-        console.log('developerCheck', developerCheck);
-      }
+    const url = host + pathname + '';
+    if (developerCheck) {
+
+    }
   }
 
   const emailValidation = (data: string) => {
