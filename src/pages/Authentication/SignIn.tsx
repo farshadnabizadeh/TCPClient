@@ -10,6 +10,7 @@ import { DataFetcher } from '../../requests/requests';
 import { LinkAction, UserAction } from '../../Memo';
 const SignIn: React.FC = () => {
   const dispatch = useDispatch();
+  const defaultRoute: any = '/';
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [emailValid, setEmailValid] = useState<boolean>(false);
@@ -33,8 +34,7 @@ const SignIn: React.FC = () => {
   }, [])
   const LoginProcess = async () => {
     let response: any = await DataFetcher(host + pathname + 'auth-user', { 'email': email, 'password': password })
-    console.log(response.data)
-    developerCheck && dispatch(LinkAction(response.data))
+    developerCheck ? dispatch(LinkAction(response.data)) : dispatch(LinkAction(defaultRoute))
   }
 
   const emailValidation = (data: string) => {
