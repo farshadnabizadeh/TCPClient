@@ -21,7 +21,6 @@ function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
   const router = useSelector((state: any)=>state.Memo);
-  console.log(router)
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 import Success from '../../images/png/success.png';
 import { postData } from '../../requests/requests';
 import { host, pathname, developerPassword, developerUsername } from '../../env';
 import { useDispatch } from 'react-redux';
-import { LinkAction , UserAction } from '../../Memo';
+import { LinkAction, UserAction } from '../../Memo';
 const SignIn: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -14,7 +14,9 @@ const SignIn: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
-  const [developerCheck, setDeveloperCheck] = useState<any>()
+  const [developerCheck, setDeveloperCheck] = useState<any>();
+  const [clicker, setClicker] = useState<boolean>(false);
+  const [loginResponse, setLoginResponse] = useState<any>();
   const WhoSendRequest = async (route: any, body: any) => {
     const url = route;
     const data = body;
@@ -25,27 +27,39 @@ const SignIn: React.FC = () => {
       setDeveloperCheck(false)
     }
   }
-  WhoSendRequest(host + pathname + 'auth-developer', {
-    'developerUsername': developerUsername,
-    'developerPassword': developerPassword,
-  });
-  const LoginProcess = () => {
-    if (developerCheck) {
-      WhoSendRequest(host + pathname + 'auth-user', {
-        'email': email,
-        'password': password,
-      })
-      dispatch(LinkAction(developerCheck))
+  const ClickResponse = async (route: any, body: any) => {
+    const url = route;
+    const data = body;
+    try {
+      let response = await postData(url, data);
+      setLoginResponse(response?.data)
+    } catch (error) {
+      setLoginResponse(false)
     }
   }
-
+  useEffect(() => {
+    WhoSendRequest(host + pathname + 'auth-developer', {
+      'developerUsername': developerUsername,
+      'developerPassword': developerPassword,
+    });
+  }, [])
+  useEffect(() => {
+    if (developerCheck) {
+      ClickResponse(host + pathname + 'auth-user', {
+        'email': email,
+        'password': password,
+      });
+      console.log(loginResponse)
+      dispatch(LinkAction(developerCheck))
+    }
+  }, [clicker])
   const emailValidation = (data: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setEmailValid(emailRegex.test(data));
   }
 
   const passwordValidation = (data: string) => {
-    const passwordRegex = /^[A-Za-z](?=.*[^A-Za-z\d])(?=.*\d)[A-Za-z\d\W_]{6,7}$/;
+    const passwordRegex = /^[A-Za-z](?=.*[^A-Za-z\d])(?=.*\d)[A-Za-z\d\W_]{7,}$/;
     setPasswordValid(passwordRegex.test(data));
   }
 
@@ -54,7 +68,7 @@ const SignIn: React.FC = () => {
     passwordValidation(password);
   }, [email, password]);
   useEffect(() => {
-    console.log('emailValid', emailValid, 'passwordValid', passwordValid)
+    // console.log('emailValid', emailValid, 'passwordValid', passwordValid)
   }, [emailValid, passwordValid])
 
   return (
@@ -281,7 +295,7 @@ const SignIn: React.FC = () => {
 
                   <div className="mb-5">
                     <input
-                      onClick={LoginProcess}
+                      onClick={() => setClicker(!clicker)}
                       type="submit"
                       value="Sign In"
                       className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
