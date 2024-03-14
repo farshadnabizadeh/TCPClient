@@ -36,17 +36,54 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
-        {router?.id?.response && <Route path="/dashboard" element={<> <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <ECommerce /> </>} />}
-        {router?.id?.response && <Route path="/calendar" element={<> <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Calendar /> </>} />}
-        {router?.id?.response && <Route path="/profile" element={<> <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Profile /> </>} />}
-        {router?.id?.response && <Route path="/forms/form-elements" element={<> <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <FormElements /> </>} />}
-        {router?.id?.response && <Route path="/forms/form-layout" element={<> <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <FormLayout /> </>} />}
-        {router?.id?.response && <Route path="/tables" element={<> <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Tables /> </>} />}
-        {router?.id?.response && <Route path="/settings" element={<> <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Settings /> </>} />}
-        {router?.id?.response && <Route path="/chart" element={<> <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Chart /> </>} />}
-        {router?.id?.response && <Route path="/ui/alerts" element={<> <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Alerts /> </>} />}
-        {router?.id?.response && <Route path="/ui/buttons" element={<> <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Buttons /> </>} />}
-        {router?.id?.response && <Route path="/auth/signup" element={<> <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignUp /> </>} />}
+        <Route path="/dashboard" element=
+          {router?.id?.response ?
+            <><PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <ECommerce /></> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
+        <Route path="/calendar" element=
+          {router?.id?.response ?
+            <> <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Calendar /> </> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
+        <Route path="/profile" element=
+          {router?.id?.response ?
+            <> <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Profile /> </> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
+        <Route path="/forms/form-elements" element=
+          {router?.id?.response ?
+            <> <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <FormElements /> </> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
+        <Route path="/forms/form-layout" element=
+          {router?.id?.response ?
+            <>
+              <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <FormLayout /> </> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
+        <Route path="/tables" element=
+          {router?.id?.response ?
+            <>
+              <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Tables /> </> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>
+          } />
+        <Route path="/settings" element=
+          {router?.id?.response ?
+            <> <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Settings /> </> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>
+          } />
+        <Route path="/chart" element=
+          {router?.id?.response ?
+            <> <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Chart /> </> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
+        <Route path="/ui/alerts" element=
+          {router?.id?.response ?
+            <> <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Alerts /> </> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
+        <Route path="/ui/buttons" element=
+          {router?.id?.response ?
+            <> <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Buttons /> </> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
+        <Route path="/auth/signup" element=
+          {router?.id?.response ?
+            <> <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignUp /> </> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
       </Routes>
     </>
 
