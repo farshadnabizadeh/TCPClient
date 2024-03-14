@@ -15,13 +15,9 @@ const SignIn: React.FC = () => {
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
   const [developerCheck, setDeveloperCheck] = useState<any>()
-  const WhoSendRequest = async () => {
-    const url = host + pathname + 'auth-developer';
-    const data = {
-      'developerUsername': developerUsername,
-      'developerPassword': developerPassword,
-    };
-
+  const WhoSendRequest = async (route: any, body: any) => {
+    const url = route;
+    const data = body;
     try {
       let response = await postData(url, data);
       setDeveloperCheck(response?.data?.systemCheck)
@@ -29,9 +25,11 @@ const SignIn: React.FC = () => {
       setDeveloperCheck(false)
     }
   }
-  WhoSendRequest();
+  WhoSendRequest(host + pathname + 'auth-developer', {
+    'developerUsername': developerUsername,
+    'developerPassword': developerPassword,
+  });
   const LoginProcess = () => {
-    const url = host + pathname + '';
     if (developerCheck) {
       dispatch(LinkAction(developerCheck))
     }
