@@ -6,6 +6,7 @@ import Success from '../../images/png/success.png';
 import { postData } from '../../requests/requests';
 import { host, pathname, developerPassword, developerUsername } from '../../env';
 import { useDispatch } from 'react-redux';
+import { DataFetcher } from '../../requests/requests';
 import { LinkAction, UserAction } from '../../Memo';
 const SignIn: React.FC = () => {
   const dispatch = useDispatch();
@@ -15,8 +16,6 @@ const SignIn: React.FC = () => {
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [passwordValid, setPasswordValid] = useState<boolean>(false);
   const [developerCheck, setDeveloperCheck] = useState<any>();
-  const [clicker, setClicker] = useState<boolean>(false);
-  const [loginResponse, setLoginResponse] = useState<any>();
   const WhoSendRequest = async (route: any, body: any) => {
     const url = route;
     const data = body;
@@ -27,32 +26,17 @@ const SignIn: React.FC = () => {
       setDeveloperCheck(false)
     }
   }
-  const ClickResponse = async (route: any, body: any) => {
-    const url = route;
-    const data = body;
-    try {
-      let response = await postData(url, data);
-      setLoginResponse(response?.data)
-    } catch (error) {
-      setLoginResponse(false)
-    }
-  }
   useEffect(() => {
     WhoSendRequest(host + pathname + 'auth-developer', {
       'developerUsername': developerUsername,
       'developerPassword': developerPassword,
     });
   }, [])
-  useEffect(() => {
-    if (developerCheck) {
-      ClickResponse(host + pathname + 'auth-user', {
-        'email': email,
-        'password': password,
-      });
-      console.log(loginResponse)
-      dispatch(LinkAction(developerCheck))
-    }
-  }, [clicker])
+  const LoginProcess = async () => {
+    let response = await DataFetcher(host + pathname + 'auth-user', { 'email': email, 'password': password })
+    console.log(response)
+  }
+
   const emailValidation = (data: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setEmailValid(emailRegex.test(data));
@@ -295,8 +279,8 @@ const SignIn: React.FC = () => {
 
                   <div className="mb-5">
                     <input
-                      onClick={() => setClicker(!clicker)}
-                      type="submit"
+                      onClick={LoginProcess}
+                      type="button"
                       value="Sign In"
                       className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                     />
