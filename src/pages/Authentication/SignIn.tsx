@@ -10,7 +10,6 @@ import { DataFetcher } from '../../requests/requests';
 import { LinkAction, UserAction } from '../../Memo';
 const SignIn: React.FC = () => {
   const dispatch = useDispatch();
-
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [emailValid, setEmailValid] = useState<boolean>(false);
@@ -33,8 +32,9 @@ const SignIn: React.FC = () => {
     });
   }, [])
   const LoginProcess = async () => {
-    let response = await DataFetcher(host + pathname + 'auth-user', { 'email': email, 'password': password })
-    console.log(response)
+    let response: any = await DataFetcher(host + pathname + 'auth-user', { 'email': email, 'password': password })
+    console.log(response.data)
+    developerCheck && dispatch(LinkAction(response.data))
   }
 
   const emailValidation = (data: string) => {
@@ -279,7 +279,7 @@ const SignIn: React.FC = () => {
 
                   <div className="mb-5">
                     <input
-                      onClick={LoginProcess}
+                      onClick={() => LoginProcess()}
                       type="button"
                       value="Sign In"
                       className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
