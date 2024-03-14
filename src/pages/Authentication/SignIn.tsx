@@ -6,7 +6,7 @@ import Success from '../../images/png/success.png';
 import { postData } from '../../requests/requests';
 import { host, pathname, developerPassword, developerUsername } from '../../env';
 import { useDispatch } from 'react-redux';
-import { LinkAction } from '../../Memo';
+import { LinkAction , UserAction } from '../../Memo';
 const SignIn: React.FC = () => {
   const dispatch = useDispatch();
 
@@ -31,6 +31,10 @@ const SignIn: React.FC = () => {
   });
   const LoginProcess = () => {
     if (developerCheck) {
+      WhoSendRequest(host + pathname + 'auth-user', {
+        'email': email,
+        'password': password,
+      })
       dispatch(LinkAction(developerCheck))
     }
   }
