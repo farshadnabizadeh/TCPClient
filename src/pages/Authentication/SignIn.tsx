@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 import Success from '../../images/png/success.png';
 import { postData } from '../../requests/requests';
 import { host, pathname, developerPassword, developerUsername } from '../../env';
-import { useDispatch } from 'react-redux';
 import { DataFetcher } from '../../requests/requests';
-import { LinkAction, UserAction } from '../../Memo';
+import { showAlert } from '../../hooks/alert';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 const SignIn: React.FC = () => {
-  const dispatch = useDispatch();
   const redirect = useNavigate()
-  const defaultRoute: any = '/';
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [emailValid, setEmailValid] = useState<boolean>(false);
@@ -36,8 +34,16 @@ const SignIn: React.FC = () => {
   }, [])
   const LoginProcess = async () => {
     let response: any = await DataFetcher(host + pathname + 'auth-user', { 'email': email, 'password': password })
-    developerCheck ? dispatch(LinkAction(response.data)) : dispatch(LinkAction(defaultRoute))
-    response.data.response && redirect('/dashboard')
+    if (response.data.errors) {
+      if (response.data.errors.email) {
+        showAlert('Email is wrong');
+      } else if (response.data.errors.password) {
+        showAlert('Password is wrong');
+      }
+    } else {
+      Cookies.set('authUser', JSON.stringify({ email: email }), { expires: 1 });
+      redirect('/dashboard')
+    }
   }
 
   const emailValidation = (data: string) => {

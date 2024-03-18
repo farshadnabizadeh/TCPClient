@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+
+import React, { useEffect, useState, useCallback } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
@@ -15,19 +16,44 @@ import Settings from './pages/Settings';
 import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
+import useWebSocket from './hooks/useWebsocket';
+import { Navigate } from 'react-router-dom';
+import { ZohoRefreshTokengetter } from './hooks/zohoRefreshToken';
+import Cookies from 'js-cookie';
 
+const PublicRoute = ({ children, redirectTo = '/' }: { children: any, redirectTo: any }) => {
+  const isAuthenticated = () => {
+    const authUser = Cookies.get('authUser');
+    return authUser && JSON.parse(authUser).email;
+  };
+
+  return !isAuthenticated() ? children : <Navigate to={redirectTo} />;
+};
+const PrivateRoute = ({ children }: { children: any }) => {
+  const authUser = Cookies.get('authUser');
+  const isAuthenticated = authUser && JSON.parse(authUser).email;
+
+  return isAuthenticated ? children : <Navigate to="/signin" />;
+};
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
   const [routes, setRoutes] = useState<any>(false)
-  const router = useSelector((state: any) => state.Memo);
-  useEffect(() => {
-    if (router?.id?.response == undefined) {
-      setRoutes(false)
-    } else {
-      setRoutes(true)
+  const [messages, setMessages] = useState<string[]>([]);
+  const [newMessage, setNewMessage] = useState<string>('');
+  const handleNewMessage = useCallback((message: any) => {
+    setMessages((prevMessages: any) => [...prevMessages, message]);
+  }, []);
+
+  const webSocket = useWebSocket('wss://apiservices.ddnsgeek.com/ws', handleNewMessage);
+  const sendMessage = () => {
+    if (webSocket && webSocket.readyState === WebSocket.OPEN && newMessage) {
+      webSocket.send(newMessage);
+      setNewMessage('');
     }
-  }, [router])
+  };
+
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -35,62 +61,44 @@ function App() {
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
   }, []);
-
+  {/* <div>
+        <h2>WebSocket Chat</h2>
+        <div>
+          {messages.map((msg, index) => (
+            <p className='text-[red]' key={index}>{msg}</p>
+          ))}
+        </div>
+        <input
+          type="text"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="Type a message..."
+        />
+        <button onClick={sendMessage}>Send Message</button>
+      </div> */}
   return loading ? (
     <Loader />
   ) : (
     <>
       <Routes>
-        <Route path="/" element={<> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
-        <Route path="/dashboard" element=
-          {routes ?
-            <><PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <ECommerce /></> :
-            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
-        <Route path="/calendar" element=
-          {routes ?
-            <> <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Calendar /> </> :
-            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
-        <Route path="/profile" element=
-          {routes ?
-            <> <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Profile /> </> :
-            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
-        <Route path="/forms/form-elements" element=
-          {routes ?
-            <> <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <FormElements /> </> :
-            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
-        <Route path="/forms/form-layout" element=
-          {routes ?
-            <>
-              <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <FormLayout /> </> :
-            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
-        <Route path="/tables" element=
-          {routes ?
-            <>
-              <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Tables /> </> :
-            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>
-          } />
-        <Route path="/settings" element=
-          {routes ?
-            <> <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Settings /> </> :
-            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>
-          } />
-        <Route path="/chart" element=
-          {routes ?
-            <> <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Chart /> </> :
-            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
-        <Route path="/ui/alerts" element=
-          {routes ?
-            <> <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Alerts /> </> :
-            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
-        <Route path="/ui/buttons" element=
-          {routes ?
-            <> <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Buttons /> </> :
-            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
-        <Route path="/auth/signup" element=
-          {routes ?
-            <> <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignUp /> </> :
-            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
+        <Route path="/" element={<PrivateRoute><ECommerce /></PrivateRoute>} />
+        <Route path="/dashboard" element={<PrivateRoute><ECommerce /></PrivateRoute>} />
+        <Route path="/calendar" element={<PrivateRoute><Calendar /></PrivateRoute>} />
+        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+        {/* Continue wrapping other routes that require authentication */}
+        <Route path="/forms/form-elements" element={<PrivateRoute><FormElements /></PrivateRoute>} />
+        <Route path="/forms/form-layout" element={<PrivateRoute><FormLayout /></PrivateRoute>} />
+        <Route path="/tables" element={<PrivateRoute><Tables /></PrivateRoute>} />
+        <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
+        <Route path="/chart" element={<PrivateRoute><Chart /></PrivateRoute>} />
+        <Route path="/ui/alerts" element={<PrivateRoute><Alerts /></PrivateRoute>} />
+        <Route path="/ui/buttons" element={<PrivateRoute><Buttons /></PrivateRoute>} />
+        {/* Routes that do not require authentication */}
+        <Route path="/signin" element={<PublicRoute redirectTo="/dashboard"><SignIn /></PublicRoute>} />
+        <Route path="/signup" element={<PublicRoute redirectTo="/dashboard"><SignUp /></PublicRoute>} />
+        {/* You can add any other public routes here */}
       </Routes>
+
     </>
 
   );
