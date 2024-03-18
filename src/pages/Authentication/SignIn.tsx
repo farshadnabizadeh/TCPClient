@@ -7,8 +7,10 @@ import { postData } from '../../requests/requests';
 import { host, pathname, developerPassword, developerUsername } from '../../env';
 import { DataFetcher } from '../../requests/requests';
 import { showAlert } from '../../hooks/alert';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 const SignIn: React.FC = () => {
-
+  const redirect = useNavigate()
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [emailValid, setEmailValid] = useState<boolean>(false);
@@ -38,8 +40,9 @@ const SignIn: React.FC = () => {
       } else if (response.data.errors.password) {
         showAlert('Password is wrong');
       }
-    }else{
-      
+    } else {
+      Cookies.set('authUser', '1', { expires: 1 / 48 });
+      redirect('/dashboard')
     }
 
     // developerCheck ? dispatch(LinkAction(response.data)) : dispatch(LinkAction(defaultRoute))

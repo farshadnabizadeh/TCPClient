@@ -18,7 +18,7 @@ import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import useWebSocket from './hooks/useWebsocket';
 import { ZohoRefreshTokengetter } from './hooks/zohoRefreshToken';
-
+import Cookies from 'js-cookie';
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
@@ -37,9 +37,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
-  
-  }, [])
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -67,53 +65,56 @@ function App() {
   ) : (
     <>
       <Routes>
-        <Route path="/" element={<> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
+        <Route path="/" element=
+          {Cookies.get('authUser') == '1' ?
+            <><PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <ECommerce /></> :
+            <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/dashboard" element=
-          {routes ?
+          {Cookies.get('authUser') == '1' ?
             <><PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <ECommerce /></> :
             <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/calendar" element=
-          {routes ?
+          {Cookies.get('authUser') == '1' ?
             <> <PageTitle title="Calendar | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Calendar /> </> :
             <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/profile" element=
-          {routes ?
+          {Cookies.get('authUser') == '1' ?
             <> <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Profile /> </> :
             <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/forms/form-elements" element=
-          {routes ?
+          {Cookies.get('authUser') == '1' ?
             <> <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <FormElements /> </> :
             <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/forms/form-layout" element=
-          {routes ?
+          {Cookies.get('authUser') == '1' ?
             <>
               <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <FormLayout /> </> :
             <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/tables" element=
-          {routes ?
+          {Cookies.get('authUser') == '1' ?
             <>
               <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Tables /> </> :
             <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>
           } />
         <Route path="/settings" element=
-          {routes ?
+          {Cookies.get('authUser') == '1' ?
             <> <PageTitle title="Settings | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Settings /> </> :
             <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>
           } />
         <Route path="/chart" element=
-          {routes ?
+          {Cookies.get('authUser') == '1' ?
             <> <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Chart /> </> :
             <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/ui/alerts" element=
-          {routes ?
+          {Cookies.get('authUser') == '1' ?
             <> <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Alerts /> </> :
             <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/ui/buttons" element=
-          {routes ?
+          {Cookies.get('authUser') == '1' ?
             <> <PageTitle title="Buttons | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <Buttons /> </> :
             <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/auth/signup" element=
-          {routes ?
+          {Cookies.get('authUser') == '1' ?
             <> <PageTitle title="Signup | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignUp /> </> :
             <> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
       </Routes>
