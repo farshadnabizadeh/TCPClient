@@ -18,11 +18,11 @@ import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import useWebSocket from './hooks/useWebsocket';
 import { ZohoRefreshTokengetter } from './hooks/zohoRefreshToken';
+
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
   const [routes, setRoutes] = useState<any>(false)
-  const router = useSelector((state: any) => state.Memo);
   const [messages, setMessages] = useState<string[]>([]);
   const [newMessage, setNewMessage] = useState<string>('');
   const handleNewMessage = useCallback((message: any) => {
@@ -38,28 +38,14 @@ function App() {
   };
 
   useEffect(() => {
-    if (router?.id?.response == undefined) {
-      setRoutes(false)
-    } else {
-      setRoutes(true)
-    }
-  }, [router])
+  
+  }, [])
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
-  }, []);
-  console.log(messages)
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      const token = await ZohoRefreshTokengetter();
-      console.log(token?.data?.access_token);
-    };
-
-    fetchToken();
   }, []);
   {/* <div>
         <h2>WebSocket Chat</h2>
