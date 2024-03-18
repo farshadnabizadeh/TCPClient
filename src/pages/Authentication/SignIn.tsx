@@ -41,7 +41,7 @@ const SignIn: React.FC = () => {
         showAlert('Password is wrong');
       }
     } else {
-      Cookies.set('authUser', '1', { expires: 1 });
+      Cookies.set('authUser', JSON.stringify({ email: email }), { expires: 1 });
       redirect('/dashboard')
     }
   }
