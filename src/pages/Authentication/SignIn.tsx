@@ -37,7 +37,7 @@ const SignIn: React.FC = () => {
   const LoginProcess = async () => {
     let response: any = await DataFetcher(host + pathname + 'auth-user', { 'email': email, 'password': password })
     developerCheck ? dispatch(LinkAction(response.data)) : dispatch(LinkAction(defaultRoute))
-    response.data.response && redirect('/dashboard')
+    response?.data?.response && redirect('/dashboard')
   }
 
   const emailValidation = (data: string) => {
