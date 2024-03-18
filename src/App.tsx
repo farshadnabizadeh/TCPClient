@@ -59,11 +59,7 @@ function App() {
   useEffect(() => {
     ZohoRefreshTokengetter()
   }, [])
-  return loading ? (
-    <Loader />
-  ) : (
-    <>
-      {/* <div>
+  {/* <div>
         <h2>WebSocket Chat</h2>
         <div>
           {messages.map((msg, index) => (
@@ -78,6 +74,10 @@ function App() {
         />
         <button onClick={sendMessage}>Send Message</button>
       </div> */}
+  return loading ? (
+    <Loader />
+  ) : (
+    <>
       <Routes>
         <Route path="/" element={<> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/dashboard" element=
