@@ -41,12 +41,9 @@ const SignIn: React.FC = () => {
         showAlert('Password is wrong');
       }
     } else {
-      Cookies.set('authUser', '1', { expires: 1 / 48 });
+      Cookies.set('authUser', '1', { expires: 1 });
       redirect('/dashboard')
     }
-
-    // developerCheck ? dispatch(LinkAction(response.data)) : dispatch(LinkAction(defaultRoute))
-    // response?.data?.response && redirect('/dashboard')
   }
 
   const emailValidation = (data: string) => {
