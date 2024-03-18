@@ -56,7 +56,7 @@ function App() {
     <Loader />
   ) : (
     <>
-      <div>
+      {/* <div>
         <h2>WebSocket Chat</h2>
         <div>
           {messages.map((msg, index) => (
@@ -70,7 +70,7 @@ function App() {
           placeholder="Type a message..."
         />
         <button onClick={sendMessage}>Send Message</button>
-      </div>
+      </div> */}
       <Routes>
         <Route path="/" element={<> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/dashboard" element=
