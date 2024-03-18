@@ -16,31 +16,19 @@ import Settings from './pages/Settings';
 import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
-import useWebSocket, { MessageHandler } from './hooks/useWebsocket';
+import useWebSocket from './hooks/useWebsocket';
+import axios from 'axios';
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
   const [routes, setRoutes] = useState<any>(false)
   const router = useSelector((state: any) => state.Memo);
-  const handleWebSocketMessage = useCallback<MessageHandler>((data: string) => {
-    console.log(data);
+  const [messages, setMessages] = useState<any>([]);
+  const handleNewMessage = useCallback((message: any) => {
+    setMessages((prevMessages: any) => [...prevMessages, message]);
   }, []);
 
-  const handleWebSocketClose = useCallback((event: CloseEvent) => {
-    console.log('WebSocket closed:', event.code, event.reason);
-  }, []);
-
-  const webSocket = useWebSocket(
-    'wss://apiservices.ddnsgeek.com/ws',
-    handleWebSocketMessage,
-    handleWebSocketClose
-  );
-
-  useEffect(() => {
-    if (webSocket) {
-      // Your logic when WebSocket is available
-    }
-  }, [webSocket]);
+  useWebSocket('wss://apiservices.ddnsgeek.com/ws', handleNewMessage);
   useEffect(() => {
     if (router?.id?.response == undefined) {
       setRoutes(false)
