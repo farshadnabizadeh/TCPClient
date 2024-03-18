@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 import Success from '../../images/png/success.png';
@@ -7,8 +7,9 @@ import { postData } from '../../requests/requests';
 import { host, pathname, developerPassword, developerUsername } from '../../env';
 import { useDispatch } from 'react-redux';
 import { DataFetcher } from '../../requests/requests';
-import { LinkAction, UserAction } from '../../Memo';
+import { LinkAction } from '../../Memo';
 import { useNavigate } from 'react-router-dom';
+
 const SignIn: React.FC = () => {
   const dispatch = useDispatch();
   const redirect = useNavigate()

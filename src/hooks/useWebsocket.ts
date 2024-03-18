@@ -1,40 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-type MessageHandler = (data: string) => void;
+export type MessageHandler = (data: string) => void;
 
-const useWebSocket = (url: string, onMessage?: MessageHandler) => {
-    const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
+const useWebSocket = (
+    url: string,
+    onMessage?: MessageHandler,
+    onClose?: (event: CloseEvent) => void
+) => {
+    const webSocketRef = useRef<WebSocket | null>(null);
 
     useEffect(() => {
         const connection = new WebSocket(url);
+        webSocketRef.current = connection;
 
-        connection.onopen = () => {
-            console.log("Connection established");
-            // If you need to send a message on connection, do it here
-            // connection.send('your message');
-        };
+        connection.onopen = () => console.log("Connection established");
 
-        connection.onerror = (error: Event) => {
-            console.error("WebSocket Error: ", error);
-        };
+        connection.onerror = (error: Event) => console.error("WebSocket Error: ", error);
 
         connection.onmessage = (event: MessageEvent) => {
             if (onMessage) onMessage(event.data);
         };
 
-        connection.onclose = () => {
-            console.log("Connection closed");
+        connection.onclose = (event: CloseEvent) => {
+            console.log("Connection closed", event.code, event.reason);
+            if (onClose) onClose(event);
         };
 
-        setWebSocket(connection);
-
-        // Clean up on unmount
         return () => {
             connection.close();
         };
-    }, [url, onMessage]);
+    }, [url]);
 
-    return webSocket;
+    return webSocketRef.current;
 };
 
 export default useWebSocket;
