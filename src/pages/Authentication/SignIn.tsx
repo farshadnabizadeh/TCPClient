@@ -5,15 +5,10 @@ import Logo from '../../images/logo/logo.svg';
 import Success from '../../images/png/success.png';
 import { postData } from '../../requests/requests';
 import { host, pathname, developerPassword, developerUsername } from '../../env';
-import { useDispatch } from 'react-redux';
 import { DataFetcher } from '../../requests/requests';
-import { LinkAction } from '../../Memo';
-import { useNavigate } from 'react-router-dom';
 
 const SignIn: React.FC = () => {
-  const dispatch = useDispatch();
-  const redirect = useNavigate()
-  const defaultRoute: any = '/';
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [emailValid, setEmailValid] = useState<boolean>(false);
@@ -37,7 +32,7 @@ const SignIn: React.FC = () => {
   }, [])
   const LoginProcess = async () => {
     let response: any = await DataFetcher(host + pathname + 'auth-user', { 'email': email, 'password': password })
-    console.log(response)
+    console.log(response.data.errors)
     // developerCheck ? dispatch(LinkAction(response.data)) : dispatch(LinkAction(defaultRoute))
     // response?.data?.response && redirect('/dashboard')
   }
