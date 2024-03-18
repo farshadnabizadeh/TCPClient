@@ -23,12 +23,20 @@ function App() {
   const { pathname } = useLocation();
   const [routes, setRoutes] = useState<any>(false)
   const router = useSelector((state: any) => state.Memo);
-  const [messages, setMessages] = useState<any>([]);
+  const [messages, setMessages] = useState<string[]>([]);
+  const [newMessage, setNewMessage] = useState<string>('');
   const handleNewMessage = useCallback((message: any) => {
     setMessages((prevMessages: any) => [...prevMessages, message]);
   }, []);
 
-  useWebSocket('wss://apiservices.ddnsgeek.com/ws', handleNewMessage);
+  const webSocket = useWebSocket('wss://apiservices.ddnsgeek.com/ws', handleNewMessage);
+  const sendMessage = () => {
+    if (webSocket && webSocket.readyState === WebSocket.OPEN && newMessage) {
+      webSocket.send(newMessage);
+      setNewMessage('');
+    }
+  };
+  
   useEffect(() => {
     if (router?.id?.response == undefined) {
       setRoutes(false)
@@ -43,11 +51,26 @@ function App() {
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
   }, []);
-
+  console.log(messages)
   return loading ? (
     <Loader />
   ) : (
     <>
+      <div>
+        <h2>WebSocket Chat</h2>
+        <div>
+          {messages.map((msg, index) => (
+            <p className='text-[red]' key={index}>{msg}</p>
+          ))}
+        </div>
+        <input
+          type="text"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="Type a message..."
+        />
+        <button onClick={sendMessage}>Send Message</button>
+      </div>
       <Routes>
         <Route path="/" element={<> <PageTitle title="Signin | TailAdmin - Tailwind CSS Admin Dashboard Template" /> <SignIn /> </>} />
         <Route path="/dashboard" element=
