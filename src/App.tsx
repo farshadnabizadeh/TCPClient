@@ -17,7 +17,7 @@ import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import useWebSocket from './hooks/useWebsocket';
-import { DataFetcher } from './requests/requests';
+import { ZohoRefreshTokengetter } from './hooks/zohoRefreshToken';
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
@@ -52,13 +52,15 @@ function App() {
     setTimeout(() => setLoading(false), 1000);
   }, []);
   console.log(messages)
-  const ZohoRefreshTokengetter = async () => {
-    let response = await DataFetcher('https://apiservices.ddnsgeek.com/api/zoho/token', {})
-    console.log(response?.data?.access_token)
-  }
+
   useEffect(() => {
-    ZohoRefreshTokengetter()
-  }, [])
+    const fetchToken = async () => {
+      const token = await ZohoRefreshTokengetter();
+      console.log(token?.data?.access_token);
+    };
+
+    fetchToken();
+  }, []);
   {/* <div>
         <h2>WebSocket Chat</h2>
         <div>
