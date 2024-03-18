@@ -6,7 +6,7 @@ import Success from '../../images/png/success.png';
 import { postData } from '../../requests/requests';
 import { host, pathname, developerPassword, developerUsername } from '../../env';
 import { DataFetcher } from '../../requests/requests';
-
+import { showAlert } from '../../hooks/alert';
 const SignIn: React.FC = () => {
 
   const [email, setEmail] = useState<string>('');
@@ -32,7 +32,16 @@ const SignIn: React.FC = () => {
   }, [])
   const LoginProcess = async () => {
     let response: any = await DataFetcher(host + pathname + 'auth-user', { 'email': email, 'password': password })
-    console.log(response.data.errors)
+    if (response.data.errors) {
+      if (response.data.errors.email) {
+        showAlert('Email is wrong');
+      } else if (response.data.errors.password) {
+        showAlert('Password is wrong');
+      }
+    }else{
+      
+    }
+
     // developerCheck ? dispatch(LinkAction(response.data)) : dispatch(LinkAction(defaultRoute))
     // response?.data?.response && redirect('/dashboard')
   }
